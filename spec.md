@@ -1,0 +1,33 @@
+## requirements
+- command line entry point
+- command line user interaction
+  - add new timer
+  - add time to existing
+  - cancel timer
+  - save timer
+  - load timer
+- main view for timer(s)
+  - display timer label(s)
+  - display clock graphic
+  - display countdown
+- play sound repeating on elapsed timer
+  - play sound at 10th of timer remaining (or sub 10 seconds)
+- help view
+  - list available functions
+- countdown back-end
+  - decrement timer progress
+  - update clock view
+- clock display graphics
+  - move 'hand' relative to countdown progress
+  - blink clock slowly on remaining 10th of timer (or sub 10 seconds)
+  - blink rapidly on 0 value countdown
+
+## eventualities
+- file command options
+  - load a timer group
+  - save a timer group
+  - line-separated file
+    - "<group-name> <label-1> xx:xx:xx [...]"
+- file i/o
+  - on load, update timers
+  - on save, dump timer data to file
