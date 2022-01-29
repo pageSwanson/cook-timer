@@ -22,6 +22,10 @@
   - blink clock slowly on remaining 10th of timer (or sub 10 seconds)
   - blink rapidly on 0 value countdown
 
+## dependencies (what we'll likely outsource)
+- console graphics library
+- sound functions library
+
 ## eventualities
 - file command options
   - load a timer group
