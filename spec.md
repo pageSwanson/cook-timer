@@ -1,5 +1,7 @@
 ## requirements
 - command line entry point
+  - '[--start, -s] <timer-label> xx:xx:xx'
+  - no arguments or '--help, -h'
 - command line user interaction
   - add new timer
   - add time to existing
@@ -12,8 +14,8 @@
   - display countdown
 - play sound repeating on elapsed timer
   - play sound at 10th of timer remaining (or sub 10 seconds)
-- help view
-  - list available functions
+- help output
+  - on help flag, list available functions
 - countdown back-end
   - decrement timer progress
   - update clock view
@@ -21,6 +23,14 @@
   - move 'hand' relative to countdown progress
   - blink clock slowly on remaining 10th of timer (or sub 10 seconds)
   - blink rapidly on 0 value countdown
+  
+## function groups
+- command parsing
+- graphics
+- clock
+- timers
+- file management
+- sound
 
 ## dependencies (what we'll likely outsource)
 - console graphics library
