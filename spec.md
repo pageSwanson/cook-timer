@@ -1,6 +1,6 @@
 ## requirements
 - command line entry point
-  - '[--start, -s] <timer-label> xx:xx:xx'
+  - '[--start, -s] \<timer-label\> xx:xx:xx'
   - no arguments or '--help, -h'
 - command line user interaction
   - add new timer
@@ -41,7 +41,7 @@
   - load a timer group
   - save a timer group
   - line-separated file
-    - "<group-name> <label-1> xx:xx:xx [...]"
+    - "\<group-label\> \<timer-label\> xx:xx:xx [...]"
 - file i/o
   - on load, update timers
   - on save, dump timer data to file
