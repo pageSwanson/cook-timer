@@ -2,6 +2,6 @@
 Console cooking timer implemented with C
 
 # build
-```c
+```bash
 gcc -o cook-timer src/cook-timer.c -lncurses
 ```
