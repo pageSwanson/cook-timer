@@ -1,33 +1,44 @@
 // Cooking timer CLI application
+#define MAX_TIMERS 3
+
 #include <stdio.h>
 #include <ncurses.h>
 
-typedef struct Timer {
+#include "timers.h"
+#include "parsers.h"
+
+struct Timer {
   int countdown;
-} Timer;
+};
+
+struct TimerDetails {
+  int countdown_seconds;
+  char label[];
+};
 
 void init_display() {
   initscr();
 }
 
-void close() {
+void end_program() {
   getch();
   endwin();
 }
 
-void print_timers(Timer *timers[], int size) {
+void print_timers(struct Timer *timers[], int size) {
   printw("cooking timers coming soon ...\n");
   refresh();
 }
 
 int main (int argc, char *argv[]) {
-  Timer *timers[3]; // arbitrary timer maximum
+  int (*(*timer_generators)(struct TimerDetails))[MAX_TIMERS];
+  struct Timer *timers[MAX_TIMERS]; // arbitrary timer count maximum
 
-  // parse args (flags)
-  //  translation from user flags to functions
+  // parse input arguments (flags)
+  //  translation from user flags to TimerDetails
   // return if invalid
   // produce init structure (array of timers with labels, durations)
-  //  use function instructions from translation to populate list
+  //  use TimerDetails from translation to populate list
   init_display();
   // start timers
   print_timers(timers, 0);
@@ -41,5 +52,5 @@ int main (int argc, char *argv[]) {
   // limit main thread loop per .25 seconds?
   // }
   // outside of loop
-  close();
+  end_program();
 }
