@@ -31,8 +31,8 @@ void print_timers(struct Timer *timers[], int size) {
 }
 
 int main (int argc, char *argv[]) {
-  int (*(*timer_generators)(struct TimerDetails))[MAX_TIMERS];
-  struct Timer *timers[MAX_TIMERS]; // arbitrary timer count maximum
+  struct TimerDetails *timer_details[MAX_TIMERS];
+  struct Timer *timers[MAX_TIMERS];
 
   // parse input arguments (flags)
   //  translation from user flags to TimerDetails
