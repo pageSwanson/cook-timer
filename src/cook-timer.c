@@ -7,12 +7,9 @@
 #include "timers.h"
 #include "parsers.h"
 
-struct Timer {
-  int countdown;
-};
-
-struct TimerDetails {
+struct TimerInfo {
   int countdown_seconds;
+  int remaining_seconds;
   char label[];
 };
 
@@ -31,19 +28,19 @@ void print_timers(struct Timer *timers[], int size) {
 }
 
 int main (int argc, char *argv[]) {
-  struct TimerDetails *timer_details[MAX_TIMERS];
-  struct Timer *timers[MAX_TIMERS];
+  struct TimerInfo *timer_info_array[MAX_TIMERS];
 
   // parse input arguments (flags)
-  //  translation from user flags to TimerDetails
-  // return if invalid
-  // produce init structure (array of timers with labels, durations)
-  //  use TimerDetails from translation to populate list
+    // produce init data structure (array of timers with labels, durations)
+    // use translation function from argv to populate list
+    // timer_info_array
+  // return if invalid (do not start program)
+
   init_display();
   // start timers
-  print_timers(timers, 0);
+  // expire or update remaining time on timers (on separate thread)
+  print_timers(timer_info_array, 0);
   // while (1) {
-  // manage + update timers (update graphics from countdown value)
   // parse commands (pause, quit, pause <timer-label>, add <timer-label> xx:xx:xx)
   //  check for user input at each cycle
   // translation to functions

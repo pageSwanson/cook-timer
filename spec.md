@@ -15,7 +15,7 @@
 - play sound repeating on elapsed timer
   - play sound at 10th of timer remaining (or sub 10 seconds)
 - help output
-  - on help flag, list available functions
+  - on help flag '[--help, -h]', list available functions
 - countdown back-end
   - decrement timer progress
   - update clock view
