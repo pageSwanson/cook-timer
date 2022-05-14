@@ -1,6 +1,7 @@
 // Cooking timer CLI application
 #define MAX_TIMERS 3
 #define INVALID_TIME_LIMIT 60
+#define MAX_LABEL_LENGTH 20
 
 #include <stdio.h>
 #include <string.h>
@@ -10,13 +11,13 @@
 #include "timers.h"
 #include "parsers.h"
 
-struct TimerInfoStruct {
+struct timer_struct {
   int countdown_seconds;
   int remaining_seconds;
   char label[];
 };
 
-typedef struct TimerInfoStruct TimerInfo;
+typedef struct timer_struct TimerStruct;
 
 void init_display() {
   initscr();
@@ -27,33 +28,41 @@ void end_program() {
   endwin();
 }
 
-void print_timers(TimerInfo *timers[], int size) {
+void print_timers(TimerStruct *timer_array[], int size) {
   printw("cooking timers coming soon ...\n");
   refresh();
 }
 
-bool parse_timers(TimerInfo *timers[], char * argv[], int argc) {
-    int numTimers = (argc - 1) / 2;
-    int argIndex = 0;
-    for (int i = 0; i < numTimers; i++) {
-        strcpy(timers[i]->label, argv[argIndex]);
-        argIndex++;
+char * parse_timer_label (char * argument) {
+    char label[MAX_LABEL_LENGTH + 1];
+    strncpy(label, argument, MAX_LABEL_LENGTH);
+    label[MAX_LABEL_LENGTH + 1] = '\0';
+
+    return label;
+}
+
+bool parse_timers(TimerStruct *timer_array[], char * argv[], int argc) {
+    int num_timers = (argc - 1) / 2; //Timers are every two arguments
+    int arg_index = 1;
+    for (int i = 0; i < num_timers; i++) {
+        timer_array[i]->label = parse_timer_label(argv[arg_index]);
+        arg_index++;
         int hours = 0;
         int minutes = 0;
         int seconds = 0;
-        sscanf(argv[argIndex], "%d%*c%d%*c%d", &hours, &minutes, &seconds);
+        sscanf(argv[arg_index], "%d%*c%d%*c%d", &hours, &minutes, &seconds);
         // if (seconds >= INVALID_TIME_LIMIT) {
         //     return -1;
         // }
         seconds += (minutes * 60) + (hours * 3600);
-        timers[i]->countdown_seconds = seconds;
-        timers[i]->remaining_seconds = seconds;
+        timer_array[i]->countdown_seconds = seconds;
+        timer_array[i]->remaining_seconds = seconds;
     }
     return true;
 }
 
 int main (int argc, char *argv[]) {
-  TimerInfo *timer_info_array[MAX_TIMERS];
+  TimerStruct *timer_info_array[MAX_TIMERS];
 
   
   if (argc > 7 || argc < 2) {
