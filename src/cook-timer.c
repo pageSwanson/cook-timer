@@ -25,18 +25,19 @@ void parse_timer_label(char *argument, char *label) {
     label[MAX_LABEL_LENGTH + 1] = '\0';
 }
 
-bool parse_timers(TimerStruct *timer_array[], char *argv[], int num_timers) {
+bool parse_timers(TimerStruct timer_array[], char *argv[], int num_timers) {
     int arg_index = 1;
     for (int i = 0; i < num_timers; i++) {
-      parse_timer_label(argv[arg_index], timer_array[i]->label);
+      parse_timer_label(argv[arg_index], timer_array[i].label);
       arg_index++;
       int hours = 0;
       int minutes = 0;
       int seconds = 0;
       sscanf(argv[arg_index], "%d:%d:%d", &hours, &minutes, &seconds);
       seconds += (minutes * 60) + (hours * 3600);
-      timer_array[i]->countdown_seconds = seconds;
-      timer_array[i]->remaining_seconds = seconds;
+      timer_array[i].countdown_seconds = seconds;
+      timer_array[i].remaining_seconds = seconds;
+      arg_index++;
     }
     return true;
 }
@@ -50,28 +51,26 @@ void end_display() {
   endwin();
 }
 
-void build_timer_string(TimerStruct *timer_struct, char *timer_format_string) {
-  timer_format_string = malloc(
+void build_timer_string(TimerStruct timer_struct) {
+  char *timer_format_string = malloc( 
     strlen("label: ") + MAX_LABEL_LENGTH +
-    strlen(", seconds: ") + 6 + 1);
+    strlen(", seconds: ") + 6 + 1); // max value of seconds is 359999 for our program
   sprintf(timer_format_string, 
     "label: %s , seconds: %d", 
-    timer_struct->label, timer_struct->countdown_seconds);
+    timer_struct.label, timer_struct.countdown_seconds);
+    printw("%s\n", timer_format_string);
 }
 
-void print_timers(TimerStruct *timer_array[], int size) {
+void print_timers(TimerStruct timer_array[], int size) {
   addch('\n');
   for (int i = 0; i < size; i++) {
-    char *timer_format_string = NULL;
-    build_timer_string(timer_array[i], timer_format_string);
-    printw("%s\n", timer_format_string);
-    free(timer_format_string);
+    build_timer_string(timer_array[i]);
   }
   refresh();
 }
 
 int main(int argc, char *argv[]) {
-  TimerStruct *timer_array = malloc(MAX_TIMERS * sizeof(TimerStruct));
+  TimerStruct * timer_array = malloc(MAX_TIMERS * sizeof(TimerStruct));
 
   if (argc > 7 || argc < 3) {
     printf("Maximum number of timers is 3\n Usage: cook-timer timerlabelnospaces 00:00:00 ...\n");
@@ -79,7 +78,7 @@ int main(int argc, char *argv[]) {
   }
 
   int num_timers = (argc - 1) / 2; // Timers are made up of arg pairs
-  if (!parse_timers(&timer_array, argv, num_timers)) {
+  if (!parse_timers(timer_array, argv, num_timers)) {
     printf("Unable to parse timer input, closing early.\n");
     return 0;
   }
@@ -87,7 +86,7 @@ int main(int argc, char *argv[]) {
   init_display();
   // start timers
   // expire or update remaining time on timers (on separate thread)
-  print_timers(&timer_array, num_timers);
+  print_timers(timer_array, num_timers);
   // while (1) {
   // parse commands (pause, quit, pause <timer-label>, add <timer-label> xx:xx:xx)
   //  check for user input at each cycle
